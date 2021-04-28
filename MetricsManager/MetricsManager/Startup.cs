@@ -9,7 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WeatherLib;
+using MetricsManager.Models.Application;
+using MetricsManager.Models.Domain;
+using AutoMapper;
+using MetricsManager.Controllers.WeatherController;
 
 namespace MetricsManager
 {
@@ -26,7 +29,15 @@ namespace MetricsManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<WeatherHistory>();
+            services.AddSingleton<IWeatherRepository, WeatherHistory>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

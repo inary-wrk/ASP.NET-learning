@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WeatherLib;
+using MetricsManager.Models.Domain;
+using MetricsManager.Controllers.WeatherController.Dto;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,39 +15,40 @@ namespace MetricsManager.Controllers.WeatherController
     [ApiController]
     public class WeatherController : ControllerBase
     {
-        private readonly WeatherHistory _weatherHistory;
-        public WeatherController(WeatherHistory weatherHistory)
+        private readonly IWeatherRepository _weatherHistory;
+        private readonly IMapper _mapper;
+
+        public WeatherController(IWeatherRepository weatherHistory, IMapper mapper)
         {
             _weatherHistory = weatherHistory;
+            _mapper = mapper;
         }
 
         [HttpGet("read")]
-        public IActionResult Read([FromQuery] Request.WeatherRequest weatherRequest)
+        public IActionResult Read([FromQuery] DateTimeDto weatherRequest)
         {
-            return Ok(_weatherHistory.GetForDaysRange(weatherRequest.From, weatherRequest.To));
+            return Ok(_weatherHistory.Get(weatherRequest.From, weatherRequest.To));
         }
 
         [HttpPost("create")]
-        public IActionResult Create([FromQuery] Weather weather)
+        public IActionResult Create([FromQuery] WeatherDto weather)
         {
-            return _weatherHistory.WeatherSet.Add(weather) ? Ok(weather) : Conflict();
+            var modelWeather = _mapper.Map<Weather>(weather);
+            return _weatherHistory.Create(modelWeather) ? Ok(weather) : Conflict();
         }
 
         [HttpPut("update")]
-        public IActionResult Update([FromQuery] Weather weather)
+        public IActionResult Update([FromQuery] WeatherDto weather)
         {
-            if (_weatherHistory.WeatherSet.TryGetValue(weather, out var actualValue))
-            {
-                actualValue.TemperatureC = weather.TemperatureC;
-                return Ok();
-            }
-            return NotFound();
+            var modelWeather = _mapper.Map<Weather>(weather);
+            return _weatherHistory.Update(modelWeather) ? Ok() : NotFound();
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete([FromQuery] Weather weather)
+        public IActionResult Delete([FromQuery] WeatherDto weather)
         {
-            return _weatherHistory.WeatherSet.Remove(weather) ? Ok(weather) : NotFound();
+            var modelWeather = _mapper.Map<Weather>(weather);
+            return _weatherHistory.Delete(modelWeather) ? Ok(weather) : NotFound();
         }
     }
 }
