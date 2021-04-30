@@ -11,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using MetricsManager.Models.Application;
 using MetricsManager.Models.Domain;
-using AutoMapper;
 using MetricsManager.Controllers.WeatherController;
 
 namespace MetricsManager
@@ -31,13 +30,7 @@ namespace MetricsManager
             services.AddControllers();
             services.AddSingleton<IWeatherRepository, WeatherHistory>();
 
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddAutoMapper(typeof(MappingProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MetricsManager.Controllers.WeatherController.Dto;
 using MetricsManager.Models.Domain;
 using System;
 

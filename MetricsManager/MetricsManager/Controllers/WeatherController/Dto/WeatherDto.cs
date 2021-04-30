@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace MetricsManager.Controllers.WeatherController.Dto
+namespace MetricsManager.Controllers.WeatherController
 {
     public class WeatherDto
     {
