@@ -1,4 +1,4 @@
-﻿using MetricsAgent.Services;
+﻿using MetricsAgent.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace MetricsAgent.Controllers
     public class RAMController : Controller
     {
         [HttpGet]
-        public IActionResult Get([FromQuery] IDateTimeProvider from, [FromQuery] IDateTimeProvider to)
+        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
         {
             return Ok();
         }

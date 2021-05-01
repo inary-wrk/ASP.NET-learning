@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MetricsAgent.Dtos;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class CPUController : Controller
     {
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
         {
             return Ok();
         }

@@ -1,4 +1,4 @@
-using MetricsAgent.Services;
+using MetricsAgent.Models.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

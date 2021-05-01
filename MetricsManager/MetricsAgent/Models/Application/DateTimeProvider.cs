@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MetricsAgent.Services
+namespace MetricsAgent.Models.Application
 {
-    interface IDateTimeProvider
+    public class DateTimeProvider
     {
-        public DateTimeOffset DateTime { get; set; }
     }
 }
