@@ -1,4 +1,4 @@
-﻿using MetricsAgent.Dtos;
+﻿using MetricsAgent.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,8 +12,8 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class RAMController : Controller
     {
-        [HttpGet]
-        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
+        [HttpGet("available")]
+        public IActionResult Get()
         {
             return Ok();
         }

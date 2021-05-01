@@ -1,38 +1,35 @@
 ﻿using Xunit;
-using MetricsManager.Controllers.WeatherController;
+using MetricsManager.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NSubstitute;
-using FluentAssertions;
 
-namespace MetricsManager.Controllers.WeatherController.Tests
+namespace MetricsManager.Controllers.Tests
 {
-    public class WeatherControllerTests
+    public class AgentsControllerTests
     {
-     
         [Fact()]
-        public void ReadTest()
+        public void RegisterTest()
         {
             Assert.True(false, "This test needs an implementation");
         }
 
         [Fact()]
-        public void CreateTest()
+        public void GetAgentsListTest()
         {
             Assert.True(false, "This test needs an implementation");
         }
 
         [Fact()]
-        public void UpdateTest()
+        public void DisableAgentTest()
         {
             Assert.True(false, "This test needs an implementation");
         }
 
         [Fact()]
-        public void DeleteTest()
+        public void EnableAgentTest()
         {
             Assert.True(false, "This test needs an implementation");
         }

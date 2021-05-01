@@ -1,11 +1,9 @@
 ﻿using System;
-using MetricsAgent.Validators;
 
-namespace MetricsAgent.Dtos
+namespace MetricsAgent.Dto
 {
     public class DateTimeRangeDto
     {
-        [DateTimeRangeValidate]
         public DateTimeOffset From { get; set; } = DateTimeOffset.UnixEpoch;
         public DateTimeOffset To { get; set; } = DateTimeOffset.MaxValue;
     }
