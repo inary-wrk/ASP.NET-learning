@@ -8,4 +8,10 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Application\" />
+    <Folder Include="Models\Domain\Entities\" />
+    <Folder Include="Models\Domain\Services\" />
+  </ItemGroup>
+
 </Project>
