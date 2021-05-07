@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsManagerTests", "Metr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsAgent", "MetricsAgent\MetricsAgent.csproj", "{177FEAA2-3A11-46B3-85AB-D039273D65F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetricsAgentTests", "MetricsAgentTests\MetricsAgentTests.csproj", "{C846BF35-0776-4E06-B867-F74FC7D4D26D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsAgentTests", "MetricsAgentTests\MetricsAgentTests.csproj", "{C846BF35-0776-4E06-B867-F74FC7D4D26D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C172648C-99CD-450A-A76E-1960C3340037}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4E53EAA6-46DA-4D4E-B55B-3FBDFF7BA19B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09263184-2F56-4EBA-8B53-FB5C919F5BBB} = {C172648C-99CD-450A-A76E-1960C3340037}
+		{1A71BFBA-A70C-4D2E-B105-9E5674BBA072} = {4E53EAA6-46DA-4D4E-B55B-3FBDFF7BA19B}
+		{177FEAA2-3A11-46B3-85AB-D039273D65F3} = {C172648C-99CD-450A-A76E-1960C3340037}
+		{C846BF35-0776-4E06-B867-F74FC7D4D26D} = {4E53EAA6-46DA-4D4E-B55B-3FBDFF7BA19B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7F55C2A-A189-4D1E-A32F-51E0C5BE492C}

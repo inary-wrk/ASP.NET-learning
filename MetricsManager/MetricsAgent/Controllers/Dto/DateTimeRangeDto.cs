@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetricsAgent.Dto
+namespace MetricsAgent.Controllers.Dto
 {
     public class DateTimeRangeDto
     {

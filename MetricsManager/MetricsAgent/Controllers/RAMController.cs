@@ -12,8 +12,8 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class RAMController : Controller
     {
-        [HttpGet("available")]
-        public IActionResult Get()
+        [HttpGet("available-space")]
+        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
         {
             return Ok();
         }

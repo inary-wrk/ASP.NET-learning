@@ -21,9 +21,10 @@ namespace MetricsAgent.Controllers.Tests
         [Fact()]
         public void GetTest()
         {
-            var result = _controller.Get();
+            throw new NotImplementedException();
+            //var result = _controller.Get();
 
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //_ = Assert.IsAssignableFrom<IActionResult>(result);
         }
     }
 }

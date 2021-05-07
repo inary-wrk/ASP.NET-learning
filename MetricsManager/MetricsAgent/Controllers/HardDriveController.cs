@@ -11,8 +11,8 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class HardDriveController : Controller
     {
-        [HttpGet("left")]
-        public IActionResult Get()
+        [HttpGet("available-space")]
+        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
         {
             return Ok();
         }

@@ -1,4 +1,6 @@
-﻿using MetricsAgent.Dto;
+﻿using MediatR;
+using MetricsAgent.Controllers.Dto;
+using MetricsAgent.Mediatr.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +13,19 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class CPUController : Controller
     {
-        [HttpGet]
-        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
+        private readonly IMediator _mediator;
+
+        public CPUController(IMediator mediator)
         {
-            return Ok();
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public IActionResult GetCPUMetrics([FromQuery] DateTimeRangeDto dateTimeRange)
+        {
+            var query = new GetCPUMetricsQuery(dateTimeRange);
+            var result = _mediator.Send(query);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,4 @@
-using MetricsAgent.Models.Services;
+using MetricsAgent.Models.Domain.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +12,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StrongInject.Extensions.DependencyInjection;
+using MetricsAgent.Controllers;
+using MediatR;
+using Mapster;
+using MapsterMapper;
 
 namespace MetricsAgent
 {
@@ -27,9 +31,13 @@ namespace MetricsAgent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().ResolveControllersThroughServiceProvider();
-            services.AddTransientServiceUsingContainer<DIContainer, Controllers.CPUController>();
+            services.AddControllers();
 
+            services.AddMediatR(typeof(Startup));
+
+            var mapsterConfig = TypeAdapterConfig.GlobalSettings;
+            services.AddSingleton(mapsterConfig);
+            services.AddScoped<IMapper, ServiceMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

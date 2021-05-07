@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MetricsAgent.Models.Application
+namespace MetricsAgent.DAL.Models
 {
-    public class DateTimeProvider
+    public class CPUMetricsDAL
     {
     }
 }
