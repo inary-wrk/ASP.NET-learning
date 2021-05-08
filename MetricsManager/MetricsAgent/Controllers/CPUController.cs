@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MetricsAgent.Controllers.Dto;
+using MetricsAgent.Mapping;
 using MetricsAgent.Mediatr.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,7 +22,7 @@ namespace MetricsAgent.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCPUMetrics([FromQuery] DateTimeRangeDto dateTimeRange)
+        public IActionResult GetCPUMetrics([FromQuery] DateTimeRangeRequestDto dateTimeRange)
         {
             var query = new GetCPUMetricsQuery(dateTimeRange);
             var result = _mediator.Send(query);

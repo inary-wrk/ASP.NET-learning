@@ -8,7 +8,7 @@
 //namespace MetricsAgent
 //{
 //    [Register(typeof(Mediator), Scope.SingleInstance , typeof(IMediator))]
-//    public partial class DIContainer
+//    public partial class DIContainer : IContainer<Mediator>
 //    {
 //    } 
 //}

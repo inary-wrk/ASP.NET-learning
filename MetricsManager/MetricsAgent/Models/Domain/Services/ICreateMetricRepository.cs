@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.Models.Domain.Services
 {
-    public interface IGetMetricsRepository<TMetric>
+    interface ICreateMetricRepository<TMetric>
         where TMetric : class
     {
-        IReadOnlyCollection<TMetric> GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to);
+        public bool Create(TMetric metric);
     }
 }

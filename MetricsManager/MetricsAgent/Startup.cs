@@ -11,11 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using StrongInject.Extensions.DependencyInjection;
 using MetricsAgent.Controllers;
 using MediatR;
-using Mapster;
-using MapsterMapper;
 
 namespace MetricsAgent
 {
@@ -35,9 +32,6 @@ namespace MetricsAgent
 
             services.AddMediatR(typeof(Startup));
 
-            var mapsterConfig = TypeAdapterConfig.GlobalSettings;
-            services.AddSingleton(mapsterConfig);
-            services.AddScoped<IMapper, ServiceMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,5 +53,9 @@ namespace MetricsAgent
                 endpoints.MapControllers();
             });
         }
+
     }
 }
+// TODO: stronginject(SR for controllers inject)
+// TODO: FluentValidation
+// TODO: global config

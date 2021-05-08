@@ -1,4 +1,4 @@
-﻿using MetricsAgent.Dto;
+﻿using MetricsAgent.Controllers.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace MetricsAgent.Controllers
     public class NetworkController : Controller
     {
         [HttpGet]
-        public IActionResult Get([FromQuery] DateTimeRangeDto dateTimeRange)
+        public IActionResult Get([FromQuery] DateTimeRangeRequestDto dateTimeRange)
         {
             return Ok();
         }

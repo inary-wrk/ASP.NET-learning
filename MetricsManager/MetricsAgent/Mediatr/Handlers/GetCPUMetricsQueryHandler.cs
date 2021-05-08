@@ -12,21 +12,19 @@ using MapsterMapper;
 
 namespace MetricsAgent.Mediatr.Handlers
 {
-    public class GetCPUMetricsQueryHandler : IRequestHandler<GetCPUMetricsQuery, IReadOnlyCollection<CPUMetricsResponceDto>>
+    public class GetCPUMetricsQueryHandler : RequestHandler<GetCPUMetricsQuery, IReadOnlyCollection<CPUMetricResponseDto>>
     {
-        private readonly IGetMetricsRepository<CPUMetricsDAL> _repository;
-        private readonly IMapper _mapper;
+        private readonly IGetMetricsRepository<CPUMetricResponseDto> _repository;
 
-        public GetCPUMetricsQueryHandler(IGetMetricsRepository<CPUMetricsDAL> repository, IMapper mapper)
+        public GetCPUMetricsQueryHandler(IGetMetricsRepository<CPUMetricResponseDto> repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
-
-        public Task<IReadOnlyCollection<CPUMetricsResponceDto>> Handle(GetCPUMetricsQuery request, CancellationToken cancellationToken)
+        protected override IReadOnlyCollection<CPUMetricResponseDto> Handle(GetCPUMetricsQuery request)
         {
-            var x = _mapper.Map<CPUMetricsDAL>(request);
+            var result = _repository.GetMetricsByTimePeriod(request.DateTimeRange.From, request.DateTimeRange.To);
+            return result;
         }
     }
 }
