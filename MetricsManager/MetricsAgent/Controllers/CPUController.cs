@@ -26,7 +26,7 @@ namespace MetricsAgent.Controllers
         {
             var query = new GetCPUMetricsQuery(dateTimeRange);
             var result = _mediator.Send(query);
-            return Ok(result);
+            return Ok(result.Result);
         }
     }
 }

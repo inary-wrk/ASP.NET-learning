@@ -8,15 +8,14 @@ using MetricsAgent.Controllers.Dto;
 using System.Threading;
 using MetricsAgent.Models.Domain.Services;
 using MetricsAgent.DAL.Models;
-using MapsterMapper;
 
 namespace MetricsAgent.Mediatr.Handlers
 {
     public class GetCPUMetricsQueryHandler : RequestHandler<GetCPUMetricsQuery, IReadOnlyCollection<CPUMetricResponseDto>>
     {
-        private readonly IGetMetricsRepository<CPUMetricResponseDto> _repository;
+        private readonly IMetricsQueryRepository<CPUMetricsDAL> _repository;
 
-        public GetCPUMetricsQueryHandler(IGetMetricsRepository<CPUMetricResponseDto> repository)
+        public GetCPUMetricsQueryHandler(IMetricsQueryRepository<CPUMetricsDAL> repository)
         {
             _repository = repository;
         }

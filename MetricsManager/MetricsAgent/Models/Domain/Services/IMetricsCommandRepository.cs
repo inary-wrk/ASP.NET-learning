@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.Models.Domain.Services
 {
-    interface ICreateMetricRepository<TMetric>
+    interface IMetricsCommandRepository<TMetric>
         where TMetric : class
     {
         public bool Create(TMetric metric);

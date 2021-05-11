@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MetricsAgent.Controllers;
 using MediatR;
+using MetricsAgent.DAL;
 
 namespace MetricsAgent
 {
@@ -29,9 +30,10 @@ namespace MetricsAgent
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             services.AddMediatR(typeof(Startup));
-
+            services.AddScoped(typeof(IMetricsQueryRepository<>), typeof(SQLiteRepository<>));
+            services.AddScoped(typeof(IMetricsCommandRepository<>), typeof(SQLiteRepository<>));
+            services.Configure<DBSettings>(Configuration.GetSection(DBSettings.ConnectionStrings));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +58,5 @@ namespace MetricsAgent
 
     }
 }
-// TODO: stronginject(SR for controllers inject)
+// TODO: stronginject(SG controllers inject)
 // TODO: FluentValidation
-// TODO: global config
