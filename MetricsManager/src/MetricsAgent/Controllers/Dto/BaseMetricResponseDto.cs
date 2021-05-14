@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.Controllers.Dto
 {
-    public abstract class BaseMetricResponceDto
+    public abstract class BaseMetricResponseDto
 
     {
         public DateTimeOffset DateTime { get; set; }

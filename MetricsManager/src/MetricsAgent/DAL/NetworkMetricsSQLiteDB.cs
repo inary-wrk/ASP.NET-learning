@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Linq;
+using System.Threading.Tasks;
+using MetricsAgent.DAL.Configuration;
 using MetricsAgent.Models.Domain.Entities;
 using MetricsAgent.Models.Domain.Services;
 using Microsoft.Extensions.Options;
-using MetricsAgent.DAL.Configuration;
 
 namespace MetricsAgent.DAL
 {
-    public class CPUMetricsSQLiteDB : IMetricsRepository<CPUMetric>
+    public class NetworkMetricsSQLiteDB : IMetricsRepository<NetworkMetric>
     {
         private readonly IOptions<DBSettings> _dataBaseSettings;
 
-        public CPUMetricsSQLiteDB(IOptions<DBSettings> dataBaseSettings)
+        public NetworkMetricsSQLiteDB(IOptions<DBSettings> dataBaseSettings)
         {
             _dataBaseSettings = dataBaseSettings;
         }
 
-        void IMetricsRepository<CPUMetric>.Create(CPUMetric metric)
+        void IMetricsRepository<NetworkMetric>.Create(NetworkMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
             using var command = new SQLiteCommand(connection);
             command.CommandText = $@"
-                                    INSERT INTO {_dataBaseSettings.Value.CPUTableName}(unixTime, value)
+                                    INSERT INTO {_dataBaseSettings.Value.NetworkTableName}(unixTime, value)
                                     VALUES(@unixTime, @value)";
 
             command.Parameters.AddWithValue("@unixTime", metric.DateTime.ToUnixTimeSeconds());
@@ -32,24 +34,24 @@ namespace MetricsAgent.DAL
             command.ExecuteNonQuery();
         }
 
-        IReadOnlyCollection<CPUMetric> IMetricsRepository<CPUMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
+        IReadOnlyCollection<NetworkMetric> IMetricsRepository<NetworkMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
             using var command = new SQLiteCommand(connection);
             command.CommandText = @$"
                                     SELECT * 
-                                    FROM {_dataBaseSettings.Value.CPUTableName}
+                                    FROM {_dataBaseSettings.Value.NetworkTableName}
                                     WHERE unixTime 
                                     BETWEEN {from.ToUnixTimeSeconds()} AND {to.ToUnixTimeSeconds()}";
 
-            List<CPUMetric> metricsList = new();
+            List<NetworkMetric> metricsList = new();
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
                     metricsList.Add(
-                        new CPUMetric
+                        new NetworkMetric
                         {
                             DateTime = DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(0)),
                             Something = reader.GetInt32(1)

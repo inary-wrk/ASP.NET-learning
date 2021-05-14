@@ -8,16 +8,16 @@ using Mapster;
 
 namespace MetricsAgent.Mediatr.Handlers.Queries
 {
-    public class GetCPUMetricsQueryHandler : RequestHandler<GetCPUMetricsQuery, IReadOnlyCollection<CPUMetricResponseDto>>
+    public class CPUMetricsGetQueryHandler : RequestHandler<CPUMetricsGetQuery, IReadOnlyCollection<CPUMetricResponseDto>>
     {
         private readonly IMetricsRepository<CPUMetric> _repository;
 
-        public GetCPUMetricsQueryHandler(IMetricsRepository<CPUMetric> repository)
+        public CPUMetricsGetQueryHandler(IMetricsRepository<CPUMetric> repository)
         {
             _repository = repository;
         }
 
-        protected override IReadOnlyCollection<CPUMetricResponseDto> Handle(GetCPUMetricsQuery request)
+        protected override IReadOnlyCollection<CPUMetricResponseDto> Handle(CPUMetricsGetQuery request)
         {
             var result = _repository.GetMetricsByTimePeriod(request.DateTimeRange.From, request.DateTimeRange.To);
             return result.Adapt<IReadOnlyCollection<CPUMetricResponseDto>>();

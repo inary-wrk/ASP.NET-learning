@@ -9,15 +9,15 @@ using MetricsAgent.Models.Domain.Services;
 
 namespace MetricsAgent.Mediatr.Handlers.Commands
 {
-    public class CreateCPUMetricsCommandHandler : RequestHandler<CreateCPUMetricCommand>
+    public class CPUMetricCreateCommandHandler : RequestHandler<CPUMetricCreateCommand>
     {
         private readonly IMetricsRepository<CPUMetric> _repository;
-        public CreateCPUMetricsCommandHandler(IMetricsRepository<CPUMetric> repository)
+        public CPUMetricCreateCommandHandler(IMetricsRepository<CPUMetric> repository)
         {
             _repository = repository;
         }
 
-        protected override void Handle(CreateCPUMetricCommand request)
+        protected override void Handle(CPUMetricCreateCommand request)
         {
             _repository.Create(request.Metric);
         }

@@ -1,14 +1,14 @@
-﻿using MediatR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MediatR;
 using MetricsAgent.Controllers.Dto;
 
 namespace MetricsAgent.Mediatr.Queries
 {
-    public class GetCPUMetricsQuery : IRequest<IReadOnlyCollection<CPUMetricResponseDto>>
+    public class RAMMetricsGetQuery: IRequest<IReadOnlyCollection<RAMMetricResponseDto>>
     {
         public DateTimeRangeRequestDto DateTimeRange { get; }
 
-        public GetCPUMetricsQuery(DateTimeRangeRequestDto dateTimeRange)
+        public RAMMetricsGetQuery(DateTimeRangeRequestDto dateTimeRange)
         {
             DateTimeRange = dateTimeRange;
         }

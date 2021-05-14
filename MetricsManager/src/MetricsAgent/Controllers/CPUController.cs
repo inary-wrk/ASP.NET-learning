@@ -19,7 +19,7 @@ namespace MetricsAgent.Controllers
         [HttpGet]
         public IActionResult GetCPUMetrics([FromQuery] DateTimeRangeRequestDto dateTimeRange)
         {
-            var query = new GetCPUMetricsQuery(dateTimeRange);
+            var query = new CPUMetricsGetQuery(dateTimeRange);
             var result = _mediator.Send(query);
             return Ok(result.Result);
         }

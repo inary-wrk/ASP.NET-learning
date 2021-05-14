@@ -39,6 +39,10 @@ namespace MetricsAgent
             services.AddMediatR(typeof(Startup));
             services.Configure<DBSettings>(Configuration.GetSection(DBSettings.DATA_BASE_SETTINGS));
             services.AddScoped<IMetricsRepository<CPUMetric>, CPUMetricsSQLiteDB>();
+            services.AddScoped<IMetricsRepository<DotNetMetric>, DotNetMetricsSQLiteDB>();
+            services.AddScoped<IMetricsRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
+            services.AddScoped<IMetricsRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
+            services.AddScoped<IMetricsRepository<RAMMetric>, RAMMetricsSQLiteDB>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

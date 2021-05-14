@@ -7,11 +7,11 @@ using MetricsAgent.Models.Domain.Entities;
 
 namespace MetricsAgent.Mediatr.Commands
 {
-    public class CreateCPUMetricCommand : IRequest
+    public class DotNetMetricCreateCommand : IRequest
     {
-        public CPUMetric Metric { get; init; }
+        public DotNetMetric Metric { get; init; }
 
-        public CreateCPUMetricCommand(CPUMetric metric)
+        public DotNetMetricCreateCommand(DotNetMetric metric)
         {
             Metric = metric;
         }

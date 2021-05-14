@@ -2,7 +2,7 @@
 
 namespace MetricsAgent.Controllers.Dto
 {
-    public class CPUMetricResponseDto : BaseMetricResponceDto
+    public class CPUMetricResponseDto : BaseMetricResponseDto
     {
         public int Something { get; set; }
     }

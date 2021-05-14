@@ -18,13 +18,56 @@ namespace MetricsAgent.DAL.Configuration
             connection.Open();
             using (var command = new SQLiteCommand(connection))
             {
-                command.CommandText = $@"DROP TABLE IF EXISTS cpumetrics";
-                command.ExecuteNonQuery();
-                command.CommandText = @$"CREATE TABLE cpumetrics(unixTime INTEGER PRIMARY KEY,
-                    value INT)";
-                command.ExecuteNonQuery();
+                CPUMetricsPrepare(command);
+                DotNetMetricsPrepare(command);
+                HardDriveMetricsPrepare(command);
+                NetworkMetricsPrepare(command);
+                RAMMetricsPrepare(command);
             }
         }
+        private void CPUMetricsPrepare(SQLiteCommand command)
+        {
+            command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.CPUTableName}";
+            command.ExecuteNonQuery();
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.CPUTableName}(unixTime INTEGER PRIMARY KEY,
+                    value INT)";
+            command.ExecuteNonQuery();
+        }
 
+        private void DotNetMetricsPrepare(SQLiteCommand command)
+        {
+            command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.DotNetTableName}";
+            command.ExecuteNonQuery();
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.DotNetTableName}(unixTime INTEGER PRIMARY KEY,
+                    value TEXT)";
+            command.ExecuteNonQuery();
+        }
+
+        private void HardDriveMetricsPrepare(SQLiteCommand command)
+        {
+            command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.HardDriveTableName}";
+            command.ExecuteNonQuery();
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.HardDriveTableName}(unixTime INTEGER PRIMARY KEY,
+                    value INT)";
+            command.ExecuteNonQuery();
+        }
+
+        private void NetworkMetricsPrepare(SQLiteCommand command)
+        {
+            command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.NetworkTableName}";
+            command.ExecuteNonQuery();
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.NetworkTableName}(unixTime INTEGER PRIMARY KEY,
+                    value INT)";
+            command.ExecuteNonQuery();
+        }
+
+        private void RAMMetricsPrepare(SQLiteCommand command)
+        {
+            command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.RAMTableName}";
+            command.ExecuteNonQuery();
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.RAMTableName}(unixTime INTEGER PRIMARY KEY,
+                    value INT)";
+            command.ExecuteNonQuery();
+        }
     }
 }
