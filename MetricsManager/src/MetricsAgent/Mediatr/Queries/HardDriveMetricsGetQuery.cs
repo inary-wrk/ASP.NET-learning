@@ -4,7 +4,7 @@ using MetricsAgent.Controllers.Dto;
 
 namespace MetricsAgent.Mediatr.Queries
 {
-    public class HardDriveMetricsGetQuery : IRequest<IReadOnlyCollection<HardDriveMetricResponseDto>>
+    public class HardDriveMetricsGetQuery : IRequest<IReadOnlyCollection<HardDriveMetricResponseDto>>, IMetricsGetQuery
     {
         public DateTimeRangeRequestDto DateTimeRange { get; } 
 

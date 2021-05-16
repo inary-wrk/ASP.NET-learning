@@ -24,6 +24,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using MetricsAgent.Controllers.Dto;
 using MetricsAgent.Validators;
+using MetricsAgent.Mediatr.PipelineBehaviours;
 
 namespace MetricsAgent
 {
@@ -42,6 +43,7 @@ namespace MetricsAgent
             services.AddControllers().AddFluentValidation();
             services.AddTransient<IValidator<DateTimeRangeRequestDto>, DateTimeRangeRequestDtoValidator>();
             services.AddMediatR(typeof(Startup));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
             //DB
             services.Configure<DBSettings>(Configuration.GetSection(DBSettings.DATA_BASE_SETTINGS));

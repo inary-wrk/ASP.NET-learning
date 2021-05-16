@@ -4,7 +4,7 @@ using MetricsAgent.Controllers.Dto;
 
 namespace MetricsAgent.Mediatr.Queries
 {
-    public class CPUMetricsGetQuery : IRequest<IReadOnlyCollection<CPUMetricResponseDto>>
+    public class CPUMetricsGetQuery : IRequest<IReadOnlyCollection<CPUMetricResponseDto>>, IMetricsGetQuery
     {
         public DateTimeRangeRequestDto DateTimeRange { get; }
 
