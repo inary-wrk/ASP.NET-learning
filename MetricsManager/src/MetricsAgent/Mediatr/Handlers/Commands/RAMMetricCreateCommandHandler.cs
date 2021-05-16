@@ -11,14 +11,14 @@ namespace MetricsAgent.Mediatr.Handlers.Commands
 {
     public class RAMMetricCreateCommandHandler : RequestHandler<RAMMetricCreateCommand>
     {
-        private readonly IMetricsRepository<RAMMetric> _repository;
-        public RAMMetricCreateCommandHandler(IMetricsRepository<RAMMetric> repository)
+        private readonly IMetricsCommandRepository<RAMMetric> _repository;
+        public RAMMetricCreateCommandHandler(IMetricsCommandRepository<RAMMetric> repository)
         {
             _repository = repository;
         }
         protected override void Handle(RAMMetricCreateCommand request)
         {
-            _repository.Create(request.Metric);
+            _repository.CreateMetric(request.Metric);
         }
     }
 }

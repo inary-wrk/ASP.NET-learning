@@ -8,7 +8,7 @@ using MetricsAgent.DAL.Configuration;
 
 namespace MetricsAgent.DAL
 {
-    public class CPUMetricsSQLiteDB : IMetricsRepository<CPUMetric>
+    public class CPUMetricsSQLiteDB : IMetricsQueryRepository<CPUMetric>, IMetricsCommandRepository<CPUMetric>
     {
         private readonly IOptions<DBSettings> _dataBaseSettings;
 
@@ -17,7 +17,7 @@ namespace MetricsAgent.DAL
             _dataBaseSettings = dataBaseSettings;
         }
 
-        void IMetricsRepository<CPUMetric>.Create(CPUMetric metric)
+        void IMetricsCommandRepository<CPUMetric>.CreateMetric(CPUMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
@@ -32,7 +32,7 @@ namespace MetricsAgent.DAL
             command.ExecuteNonQuery();
         }
 
-        IReadOnlyCollection<CPUMetric> IMetricsRepository<CPUMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
+        IReadOnlyCollection<CPUMetric> IMetricsQueryRepository<CPUMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();

@@ -20,6 +20,10 @@ using Microsoft.Extensions.Options;
 using System.Data.SQLite;
 using Mapster;
 using System.Linq.Expressions;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using MetricsAgent.Controllers.Dto;
+using MetricsAgent.Validators;
 
 namespace MetricsAgent
 {
@@ -35,14 +39,22 @@ namespace MetricsAgent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation();
+            services.AddTransient<IValidator<DateTimeRangeRequestDto>, DateTimeRangeRequestDtoValidator>();
             services.AddMediatR(typeof(Startup));
+
+            //DB
             services.Configure<DBSettings>(Configuration.GetSection(DBSettings.DATA_BASE_SETTINGS));
-            services.AddScoped<IMetricsRepository<CPUMetric>, CPUMetricsSQLiteDB>();
-            services.AddScoped<IMetricsRepository<DotNetMetric>, DotNetMetricsSQLiteDB>();
-            services.AddScoped<IMetricsRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
-            services.AddScoped<IMetricsRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
-            services.AddScoped<IMetricsRepository<RAMMetric>, RAMMetricsSQLiteDB>();
+            services.AddScoped<IMetricsQueryRepository<CPUMetric>, CPUMetricsSQLiteDB>();
+            services.AddScoped<IMetricsQueryRepository<DotNetMetric>, DotNetMetricsSQLiteDB>();
+            services.AddScoped<IMetricsQueryRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
+            services.AddScoped<IMetricsQueryRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
+            services.AddScoped<IMetricsQueryRepository<RAMMetric>, RAMMetricsSQLiteDB>();
+            services.AddScoped<IMetricsCommandRepository<CPUMetric>, CPUMetricsSQLiteDB>();
+            services.AddScoped<IMetricsCommandRepository<DotNetMetric>, DotNetMetricsSQLiteDB>();
+            services.AddScoped<IMetricsCommandRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
+            services.AddScoped<IMetricsCommandRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
+            services.AddScoped<IMetricsCommandRepository<RAMMetric>, RAMMetricsSQLiteDB>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +64,6 @@ namespace MetricsAgent
                               IMediator mediator
                              )
         {
-            TypeAdapterConfig.GlobalSettings.Compiler = exp => exp.CompileWithDebugInfo();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,6 +80,7 @@ namespace MetricsAgent
                 endpoints.MapControllers();
             });
 
+            TypeAdapterConfig.GlobalSettings.Compiler = exp => exp.CompileWithDebugInfo();
             SQLiteConfigure configureSQLite = new(dataBaseSettings);
             configureSQLite.PrepareSchema();
             FillDataBase fillDataBase = new(mediator);

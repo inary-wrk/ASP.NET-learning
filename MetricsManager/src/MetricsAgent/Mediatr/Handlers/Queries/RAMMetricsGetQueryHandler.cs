@@ -13,9 +13,9 @@ namespace MetricsAgent.Mediatr.Handlers.Queries
 {
     public class RAMMetricsGetQueryHandler : RequestHandler<RAMMetricsGetQuery, IReadOnlyCollection<RAMMetricResponseDto>>
     {
-        private readonly IMetricsRepository<RAMMetric> _repository;
+        private readonly IMetricsQueryRepository<RAMMetric> _repository;
 
-        public RAMMetricsGetQueryHandler(IMetricsRepository<RAMMetric> repository)
+        public RAMMetricsGetQueryHandler(IMetricsQueryRepository<RAMMetric> repository)
         {
             _repository = repository;
         }

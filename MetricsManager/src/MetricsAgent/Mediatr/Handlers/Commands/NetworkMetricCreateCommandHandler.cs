@@ -11,15 +11,15 @@ namespace MetricsAgent.Mediatr.Handlers.Commands
 {
     public class NetworkMetricCreateCommandHandler : RequestHandler<NetworkMetricCreateCommand>
     {
-        private readonly IMetricsRepository<NetworkMetric> _repository;
-        public NetworkMetricCreateCommandHandler(IMetricsRepository<NetworkMetric> repository)
+        private readonly IMetricsCommandRepository<NetworkMetric> _repository;
+        public NetworkMetricCreateCommandHandler(IMetricsCommandRepository<NetworkMetric> repository)
         {
             _repository = repository;
         }
 
         protected override void Handle(NetworkMetricCreateCommand request)
         {
-            _repository.Create(request.Metric);
+            _repository.CreateMetric(request.Metric);
         }
     }
 }

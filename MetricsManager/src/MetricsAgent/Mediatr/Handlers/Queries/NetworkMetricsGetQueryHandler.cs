@@ -13,9 +13,9 @@ namespace MetricsAgent.Mediatr.Handlers.Queries
 {
     public class NetworkMetricsGetQueryHandler : RequestHandler<NetworkMetricsGetQuery, IReadOnlyCollection<NetworkMetricResponseDto>>
     {
-        private readonly IMetricsRepository<NetworkMetric> _repository;
+        private readonly IMetricsQueryRepository<NetworkMetric> _repository;
 
-        public NetworkMetricsGetQueryHandler(IMetricsRepository<NetworkMetric> repository)
+        public NetworkMetricsGetQueryHandler(IMetricsQueryRepository<NetworkMetric> repository)
         {
             _repository = repository;
         }

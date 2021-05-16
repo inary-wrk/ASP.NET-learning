@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace MetricsAgent.DAL
 {
-    public class RAMMetricsSQLiteDB : IMetricsRepository<RAMMetric>
+    public class RAMMetricsSQLiteDB : IMetricsQueryRepository<RAMMetric>, IMetricsCommandRepository<RAMMetric>
     {
 
         private readonly IOptions<DBSettings> _dataBaseSettings;
@@ -20,7 +20,7 @@ namespace MetricsAgent.DAL
             _dataBaseSettings = dataBaseSettings;
         }
 
-        void IMetricsRepository<RAMMetric>.Create(RAMMetric metric)
+        void IMetricsCommandRepository<RAMMetric>.CreateMetric(RAMMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
@@ -35,7 +35,7 @@ namespace MetricsAgent.DAL
             command.ExecuteNonQuery();
         }
 
-        IReadOnlyCollection<RAMMetric> IMetricsRepository<RAMMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
+        IReadOnlyCollection<RAMMetric> IMetricsQueryRepository<RAMMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();

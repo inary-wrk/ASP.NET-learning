@@ -8,7 +8,7 @@ using MetricsAgent.DAL.Configuration;
 
 namespace MetricsAgent.DAL
 {
-    public class DotNetMetricsSQLiteDB : IMetricsRepository<DotNetMetric>
+    public class DotNetMetricsSQLiteDB : IMetricsQueryRepository<DotNetMetric>, IMetricsCommandRepository<DotNetMetric>
     {
         private readonly IOptions<DBSettings> _dataBaseSettings;
 
@@ -17,7 +17,7 @@ namespace MetricsAgent.DAL
             _dataBaseSettings = dataBaseSettings;
         }
 
-        void IMetricsRepository<DotNetMetric>.Create(DotNetMetric metric)
+        void IMetricsCommandRepository<DotNetMetric>.CreateMetric(DotNetMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
@@ -32,7 +32,7 @@ namespace MetricsAgent.DAL
             command.ExecuteNonQuery();
         }
 
-        IReadOnlyCollection<DotNetMetric> IMetricsRepository<DotNetMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
+        IReadOnlyCollection<DotNetMetric> IMetricsQueryRepository<DotNetMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();

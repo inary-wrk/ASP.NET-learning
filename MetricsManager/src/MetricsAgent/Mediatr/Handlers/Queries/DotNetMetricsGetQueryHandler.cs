@@ -10,9 +10,9 @@ namespace MetricsAgent.Mediatr.Handlers.Queries
 {
     public class DotNetMetricsGetQueryHandler : RequestHandler<DotNetMetricsGetQuery, IReadOnlyCollection<DotNetMetricResponseDto>>
     {
-        private readonly IMetricsRepository<DotNetMetric> _repository;
+        private readonly IMetricsQueryRepository<DotNetMetric> _repository;
 
-        public DotNetMetricsGetQueryHandler(IMetricsRepository<DotNetMetric> repository)
+        public DotNetMetricsGetQueryHandler(IMetricsQueryRepository<DotNetMetric> repository)
         {
             _repository = repository;
         }

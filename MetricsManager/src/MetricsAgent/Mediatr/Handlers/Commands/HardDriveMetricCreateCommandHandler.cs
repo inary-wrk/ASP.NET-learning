@@ -11,15 +11,15 @@ namespace MetricsAgent.Mediatr.Handlers.Commands
 {
     public class HardDriveMetricCreateCommandHandler : RequestHandler<HardDriveMetricCreateCommand>
     {
-        private readonly IMetricsRepository<HardDriveMetric> _repository;
-        public HardDriveMetricCreateCommandHandler(IMetricsRepository<HardDriveMetric> repository)
+        private readonly IMetricsCommandRepository<HardDriveMetric> _repository;
+        public HardDriveMetricCreateCommandHandler(IMetricsCommandRepository<HardDriveMetric> repository)
         {
             _repository = repository;
         }
 
         protected override void Handle(HardDriveMetricCreateCommand request)
         {
-            _repository.Create(request.Metric);
+            _repository.CreateMetric(request.Metric);
         }
     }
 }

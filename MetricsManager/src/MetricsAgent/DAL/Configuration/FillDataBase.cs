@@ -62,6 +62,7 @@ namespace MetricsAgent.DAL.Configuration
                     .Generate();
                 var commandram = new RAMMetricCreateCommand(rammetric);
                 _mediator.Send(commandram);
+
             }
         }
     }

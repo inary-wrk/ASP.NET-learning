@@ -10,9 +10,9 @@ namespace MetricsAgent.Mediatr.Handlers.Queries
 {
     public class CPUMetricsGetQueryHandler : RequestHandler<CPUMetricsGetQuery, IReadOnlyCollection<CPUMetricResponseDto>>
     {
-        private readonly IMetricsRepository<CPUMetric> _repository;
+        private readonly IMetricsQueryRepository<CPUMetric> _repository;
 
-        public CPUMetricsGetQueryHandler(IMetricsRepository<CPUMetric> repository)
+        public CPUMetricsGetQueryHandler(IMetricsQueryRepository<CPUMetric> repository)
         {
             _repository = repository;
         }

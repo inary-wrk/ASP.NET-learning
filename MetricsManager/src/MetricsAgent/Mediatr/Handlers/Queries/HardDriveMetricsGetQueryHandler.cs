@@ -13,9 +13,9 @@ namespace MetricsAgent.Mediatr.Handlers.Queries
 {
     public class HardDriveMetricsGetQueryHandler : RequestHandler<HardDriveMetricsGetQuery, IReadOnlyCollection<HardDriveMetricResponseDto>>
     {
-        private readonly IMetricsRepository<HardDriveMetric> _repository;
+        private readonly IMetricsQueryRepository<HardDriveMetric> _repository;
 
-        public HardDriveMetricsGetQueryHandler(IMetricsRepository<HardDriveMetric> repository)
+        public HardDriveMetricsGetQueryHandler(IMetricsQueryRepository<HardDriveMetric> repository)
         {
             _repository = repository;
         }

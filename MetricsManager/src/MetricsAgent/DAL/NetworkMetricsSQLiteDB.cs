@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace MetricsAgent.DAL
 {
-    public class NetworkMetricsSQLiteDB : IMetricsRepository<NetworkMetric>
+    public class NetworkMetricsSQLiteDB : IMetricsQueryRepository<NetworkMetric>, IMetricsCommandRepository<NetworkMetric>
     {
         private readonly IOptions<DBSettings> _dataBaseSettings;
 
@@ -19,7 +19,7 @@ namespace MetricsAgent.DAL
             _dataBaseSettings = dataBaseSettings;
         }
 
-        void IMetricsRepository<NetworkMetric>.Create(NetworkMetric metric)
+        void IMetricsCommandRepository<NetworkMetric>.CreateMetric(NetworkMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
@@ -34,7 +34,7 @@ namespace MetricsAgent.DAL
             command.ExecuteNonQuery();
         }
 
-        IReadOnlyCollection<NetworkMetric> IMetricsRepository<NetworkMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
+        IReadOnlyCollection<NetworkMetric> IMetricsQueryRepository<NetworkMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();

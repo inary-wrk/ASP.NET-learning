@@ -8,7 +8,7 @@ using MetricsAgent.DAL.Configuration;
 
 namespace MetricsAgent.DAL
 {
-    public class HardDriveMetricsSQLiteDB : IMetricsRepository<HardDriveMetric>
+    public class HardDriveMetricsSQLiteDB : IMetricsQueryRepository<HardDriveMetric>, IMetricsCommandRepository<HardDriveMetric>
     {
         private readonly IOptions<DBSettings> _dataBaseSettings;
 
@@ -17,7 +17,7 @@ namespace MetricsAgent.DAL
             _dataBaseSettings = dataBaseSettings;
         }
 
-        void IMetricsRepository<HardDriveMetric>.Create(HardDriveMetric metric)
+        void IMetricsCommandRepository<HardDriveMetric>.CreateMetric(HardDriveMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
@@ -32,7 +32,7 @@ namespace MetricsAgent.DAL
             command.ExecuteNonQuery();
         }
 
-        IReadOnlyCollection<HardDriveMetric> IMetricsRepository<HardDriveMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
+        IReadOnlyCollection<HardDriveMetric> IMetricsQueryRepository<HardDriveMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
