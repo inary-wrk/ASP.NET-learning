@@ -5,6 +5,7 @@ using MetricsAgent.Controllers.Dto;
 using MetricsAgent.Models.Domain.Services;
 using MetricsAgent.Models.Domain.Entities;
 using Mapster;
+using System;
 
 namespace MetricsAgent.Mediatr.Handlers.Queries
 {

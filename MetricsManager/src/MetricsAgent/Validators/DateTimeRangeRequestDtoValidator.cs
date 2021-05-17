@@ -8,8 +8,9 @@ namespace MetricsAgent.Validators
     {
         public DateTimeRangeRequestDtoValidator()
         {
-            RuleFor(x => x.From).GreaterThanOrEqualTo(DateTimeOffset.UnixEpoch);
-            RuleFor(x=>x.To).GreaterThanOrEqualTo(DateTimeOffset.UnixEpoch);
+            RuleFor(x => x.From)
+                .GreaterThanOrEqualTo(DateTimeOffset.UnixEpoch)
+                .LessThanOrEqualTo(x => x.To);
         }
     }
 }

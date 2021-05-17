@@ -12,6 +12,7 @@ namespace MetricsAgent
 {
     public class Program
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP004:Don't ignore created IDisposable.", Justification = "<Pending>")]
         public static void Main(string[] args)
         {
             var logger = NLogBuilder.ConfigureNLog("Nlog.config").GetCurrentClassLogger();

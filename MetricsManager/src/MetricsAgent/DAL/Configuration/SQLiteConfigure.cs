@@ -16,15 +16,14 @@ namespace MetricsAgent.DAL.Configuration
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
             connection.Open();
-            using (var command = new SQLiteCommand(connection))
-            {
-                CPUMetricsPrepare(command);
-                DotNetMetricsPrepare(command);
-                HardDriveMetricsPrepare(command);
-                NetworkMetricsPrepare(command);
-                RAMMetricsPrepare(command);
-            }
+            using var command = new SQLiteCommand(connection);
+            CPUMetricsPrepare(command);
+            DotNetMetricsPrepare(command);
+            HardDriveMetricsPrepare(command);
+            NetworkMetricsPrepare(command);
+            RAMMetricsPrepare(command);
         }
+
         private void CPUMetricsPrepare(SQLiteCommand command)
         {
             command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.CPUTableName}";
