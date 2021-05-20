@@ -1,4 +1,6 @@
-﻿namespace MetricsAgent.Models.Domain.Entities
+﻿using System;
+
+namespace MetricsAgent.Models.Domain.Entities
 {
     public class CPUMetric : BaseMetric
     {

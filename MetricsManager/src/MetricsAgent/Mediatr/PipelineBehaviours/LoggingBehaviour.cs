@@ -24,8 +24,8 @@ namespace MetricsAgent.Mediatr.PipelineBehaviours
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var id = Guid.NewGuid();
-            Task<TResponse> response;
             _logger.LogInformation($"{id}|Processing metrics request for date time range:({request.DateTimeRange.From}) - ({request.DateTimeRange.To})");
+            Task<TResponse> response;
             try
             {
                 response = next();

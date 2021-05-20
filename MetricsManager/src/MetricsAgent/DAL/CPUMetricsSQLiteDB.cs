@@ -6,6 +6,9 @@ using MetricsAgent.Models.Domain.Services;
 using Microsoft.Extensions.Options;
 using MetricsAgent.DAL.Configuration;
 using Dapper;
+using MetricsAgent.DAL.Handlers;
+using Microsoft.AspNetCore.Html;
+using System.Data;
 
 namespace MetricsAgent.DAL
 {
@@ -21,48 +24,17 @@ namespace MetricsAgent.DAL
         void IMetricsCommandRepository<CPUMetric>.CreateMetric(CPUMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
-            connection.Open();
-            connection.Execute()
-            using var command = new SQLiteCommand(connection);
-            command.CommandText = $@"
-                                    INSERT INTO {_dataBaseSettings.Value.CPUTableName}(unixTime, value)
-                                    VALUES(@unixTime, @value)";
-
-            command.Parameters.AddWithValue("@unixTime", metric.DateTime.ToUnixTimeSeconds());
-            command.Parameters.AddWithValue("@value", metric.Something);
-            command.Prepare();
-            command.ExecuteNonQuery();
+            connection.Execute($@"INSERT INTO {_dataBaseSettings.Value.CPUTableName}(DateTime, Something)
+                                    VALUES(@DateTime, @Something)", metric);
         }
 
         IReadOnlyCollection<CPUMetric> IMetricsQueryRepository<CPUMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
-
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
-            connection.Open();
-            return connection.Query<CPUMetric>(@$"SELECT * FROM {_dataBaseSettings.Value.CPUTableName} 
-                                                      WHERE unixTime 
-                                                      BETWEEN @from AND @to", (from, to)).AsList();
-            //using var command = new SQLiteCommand(connection);
-            //command.CommandText = @$"
-            //                        SELECT * 
-            //                        FROM {_dataBaseSettings.Value.CPUTableName}
-            //                        WHERE unixTime 
-            //                        BETWEEN {from.ToUnixTimeSeconds()} AND {to.ToUnixTimeSeconds()}";
-
-            //List<CPUMetric> metricsList = new();
-            //using (SQLiteDataReader reader = command.ExecuteReader())
-            //{
-            //    while (reader.Read())
-            //    {
-            //        metricsList.Add(
-            //            new CPUMetric
-            //            {
-            //                DateTime = DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(0)),
-            //                Something = reader.GetInt32(1)
-            //            });
-            //    }
-            //}
-            //return metricsList;
+            return connection.Query<CPUMetric>(@$"SELECT * FROM {_dataBaseSettings.Value.CPUTableName}
+                                                    WHERE DateTime 
+                                                    BETWEEN @from AND @to",
+                                                    new { from, to }).AsList();
         }
     }
 }

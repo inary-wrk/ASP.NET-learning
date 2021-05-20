@@ -9,10 +9,15 @@ namespace MetricsAgent.DAL.Handlers
 {
     public class DateTimeOffsetHandler : SqlMapper.TypeHandler<DateTimeOffset>
     {
+        public static readonly SqlMapper.ITypeHandler Default = new DateTimeOffsetHandler();
+        private DateTimeOffsetHandler() { }
         public override DateTimeOffset Parse(object value)
         => DateTimeOffset.FromUnixTimeSeconds((long)value);
 
         public override void SetValue(IDbDataParameter parameter, DateTimeOffset value)
-        => parameter.Value = value.ToUnixTimeSeconds();
+        {
+            parameter.DbType = DbType.Int64;
+            parameter.Value = value.ToUnixTimeSeconds();
+        }
     }
 }
