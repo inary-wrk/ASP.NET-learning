@@ -25,10 +25,9 @@ namespace MetricsAgent.DAL.Configuration
             HardDriveMetricsPrepare(command);
             NetworkMetricsPrepare(command);
             RAMMetricsPrepare(command);
-            ConfigureSqliteMapper();
         }
 
-        private void ConfigureSqliteMapper()
+        public void ConfigureSqliteMapper()
         {
             SqlMapper.RemoveTypeMap(typeof(DateTimeOffset));
             SqlMapper.AddTypeHandler(typeof(DateTimeOffset), DateTimeOffsetHandler.Default);

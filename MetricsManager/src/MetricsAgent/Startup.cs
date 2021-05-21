@@ -27,6 +27,7 @@ using MetricsAgent.Validators;
 using MetricsAgent.Mediatr.PipelineBehaviours;
 using Dapper;
 using MetricsAgent.DAL.Handlers;
+using FluentMigrator.Runner;
 
 namespace MetricsAgent
 {
@@ -49,6 +50,13 @@ namespace MetricsAgent
 
             //DB
             services.Configure<DBSettings>(Configuration.GetSection(DBSettings.DATA_BASE_SETTINGS));
+            services.AddFluentMigratorCore()
+                .ConfigureRunner(rb => rb
+                .AddSQLite()
+                .WithGlobalConnectionString(Configuration.GetSection("DataBaseSettings")["SQLiteConnection"])
+                .ScanIn(typeof(Startup).Assembly).For.Migrations())
+                .AddLogging(lo => lo.AddFluentMigratorConsole());
+
             services.AddScoped<IMetricsQueryRepository<CPUMetric>, CPUMetricsSQLiteDB>();
             services.AddScoped<IMetricsQueryRepository<DotNetMetric>, DotNetMetricsSQLiteDB>();
             services.AddScoped<IMetricsQueryRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
@@ -65,7 +73,8 @@ namespace MetricsAgent
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
                               IOptions<DBSettings> dataBaseSettings,
-                              IMediator mediatr
+                              IMediator mediatr,
+                              IMigrationRunner migrationRunner
                              )
         {
             if (env.IsDevelopment())
@@ -86,11 +95,11 @@ namespace MetricsAgent
 
             TypeAdapterConfig.GlobalSettings.Compiler = exp => exp.CompileWithDebugInfo();
             SQLiteConfigure configureSQLite = new(dataBaseSettings);
-            configureSQLite.PrepareSchema();
+            configureSQLite.ConfigureSqliteMapper();
+            migrationRunner.MigrateUp();
             FillDataBase fillDataBase = new(mediatr);
             fillDataBase.FillMetricsDataBase();
         }
-
     }
 }
 // TODO: stronginject(SG controllers inject)
