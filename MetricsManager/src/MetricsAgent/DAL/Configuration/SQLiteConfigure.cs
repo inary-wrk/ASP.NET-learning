@@ -1,4 +1,7 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
+using Dapper;
+using MetricsAgent.DAL.Handlers;
 using Microsoft.Extensions.Options;
 
 namespace MetricsAgent.DAL.Configuration
@@ -22,14 +25,21 @@ namespace MetricsAgent.DAL.Configuration
             HardDriveMetricsPrepare(command);
             NetworkMetricsPrepare(command);
             RAMMetricsPrepare(command);
+            ConfigureSqliteMapper();
+        }
+
+        private void ConfigureSqliteMapper()
+        {
+            SqlMapper.RemoveTypeMap(typeof(DateTimeOffset));
+            SqlMapper.AddTypeHandler(typeof(DateTimeOffset), DateTimeOffsetHandler.Default);
         }
 
         private void CPUMetricsPrepare(SQLiteCommand command)
         {
             command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.CPUTableName}";
             command.ExecuteNonQuery();
-            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.CPUTableName}(unixTime INTEGER PRIMARY KEY,
-                    value INT)";
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.CPUTableName}(DateTime INTEGER PRIMARY KEY,
+                    Something INT)";
             command.ExecuteNonQuery();
         }
 
@@ -37,8 +47,8 @@ namespace MetricsAgent.DAL.Configuration
         {
             command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.DotNetTableName}";
             command.ExecuteNonQuery();
-            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.DotNetTableName}(unixTime INTEGER PRIMARY KEY,
-                    value TEXT)";
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.DotNetTableName}(DateTime INTEGER PRIMARY KEY,
+                    Something TEXT)";
             command.ExecuteNonQuery();
         }
 
@@ -46,8 +56,8 @@ namespace MetricsAgent.DAL.Configuration
         {
             command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.HardDriveTableName}";
             command.ExecuteNonQuery();
-            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.HardDriveTableName}(unixTime INTEGER PRIMARY KEY,
-                    value INT)";
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.HardDriveTableName}(DateTime INTEGER PRIMARY KEY,
+                    Something INT)";
             command.ExecuteNonQuery();
         }
 
@@ -55,8 +65,8 @@ namespace MetricsAgent.DAL.Configuration
         {
             command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.NetworkTableName}";
             command.ExecuteNonQuery();
-            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.NetworkTableName}(unixTime INTEGER PRIMARY KEY,
-                    value INT)";
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.NetworkTableName}(DateTime INTEGER PRIMARY KEY,
+                    Something INT)";
             command.ExecuteNonQuery();
         }
 
@@ -64,8 +74,8 @@ namespace MetricsAgent.DAL.Configuration
         {
             command.CommandText = $@"DROP TABLE IF EXISTS {_dataBaseSettings.Value.RAMTableName}";
             command.ExecuteNonQuery();
-            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.RAMTableName}(unixTime INTEGER PRIMARY KEY,
-                    value INT)";
+            command.CommandText = @$"CREATE TABLE {_dataBaseSettings.Value.RAMTableName}(DateTime INTEGER PRIMARY KEY,
+                    Something INT)";
             command.ExecuteNonQuery();
         }
     }

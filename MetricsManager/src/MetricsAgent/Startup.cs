@@ -25,6 +25,8 @@ using FluentValidation;
 using MetricsAgent.Controllers.Dto;
 using MetricsAgent.Validators;
 using MetricsAgent.Mediatr.PipelineBehaviours;
+using Dapper;
+using MetricsAgent.DAL.Handlers;
 
 namespace MetricsAgent
 {
@@ -63,7 +65,7 @@ namespace MetricsAgent
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
                               IOptions<DBSettings> dataBaseSettings,
-                              IMediator mediator
+                              IMediator mediatr
                              )
         {
             if (env.IsDevelopment())
@@ -85,7 +87,7 @@ namespace MetricsAgent
             TypeAdapterConfig.GlobalSettings.Compiler = exp => exp.CompileWithDebugInfo();
             SQLiteConfigure configureSQLite = new(dataBaseSettings);
             configureSQLite.PrepareSchema();
-            FillDataBase fillDataBase = new(mediator);
+            FillDataBase fillDataBase = new(mediatr);
             fillDataBase.FillMetricsDataBase();
         }
 
