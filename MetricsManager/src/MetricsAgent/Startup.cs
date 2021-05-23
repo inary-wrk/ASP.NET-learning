@@ -28,6 +28,11 @@ using MetricsAgent.Mediatr.PipelineBehaviours;
 using Dapper;
 using MetricsAgent.DAL.Handlers;
 using FluentMigrator.Runner;
+using Quartz.Spi;
+using MetricsAgent.Models.Application;
+using Quartz;
+using Quartz.Impl;
+using MetricsAgent.Models.Application.Jobs;
 
 namespace MetricsAgent
 {
@@ -47,6 +52,7 @@ namespace MetricsAgent
             services.AddTransient<IValidator<DateTimeRangeRequestDto>, DateTimeRangeRequestDtoValidator>();
             services.AddMediatR(typeof(Startup));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 
             //DB
             services.Configure<DBSettings>(Configuration.GetSection(DBSettings.DATA_BASE_SETTINGS));
@@ -67,13 +73,19 @@ namespace MetricsAgent
             services.AddScoped<IMetricsCommandRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
             services.AddScoped<IMetricsCommandRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
             services.AddScoped<IMetricsCommandRepository<RAMMetric>, RAMMetricsSQLiteDB>();
+            //Quartz
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<CpuMetricJob>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(CpuMetricJob),
+                cronExpression: "0/5 * * * * ?"));
+            services.AddHostedService<QuartzHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
-                              IOptions<DBSettings> dataBaseSettings,
-                              IMediator mediatr,
                               IMigrationRunner migrationRunner
                              )
         {
@@ -94,13 +106,10 @@ namespace MetricsAgent
             });
 
             TypeAdapterConfig.GlobalSettings.Compiler = exp => exp.CompileWithDebugInfo();
-            SQLiteConfigure configureSQLite = new(dataBaseSettings);
-            configureSQLite.ConfigureSqliteMapper();
+            SqlMapper.RemoveTypeMap(typeof(DateTimeOffset));
+            SqlMapper.AddTypeHandler(typeof(DateTimeOffset), DateTimeOffsetHandler.Default);
             migrationRunner.MigrateUp();
-            FillDataBase fillDataBase = new(mediatr);
-            fillDataBase.FillMetricsDataBase();
         }
     }
 }
 // TODO: stronginject(SG controllers inject)
-// TODO: FluentValidation

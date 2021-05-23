@@ -28,19 +28,12 @@ namespace MetricsAgent.DAL.Configuration
             Randomizer.Seed = new(SEED);
             for (int i = 0; i < COUNT; i++)
             {
-                var cpumetric = new Faker<CPUMetric>()
-                    .RuleFor(x => x.DateTime, x => x.Date.BetweenOffset(_from, _to))
-                    .RuleFor(x => x.Something, x => x.Random.Int(10, 85))
-                    .Generate();
-                var commandcpu = new CPUMetricCreateCommand(cpumetric);
-                _mediator.Send(commandcpu);
-
                 var dotnetmetric = new Faker<DotNetMetric>()
                     .RuleFor(x => x.DateTime, x => x.Date.BetweenOffset(_from, _to))
                     .RuleFor(x => x.Something, x => x.Hacker.Phrase())
                     .Generate();
                 var commanddotnet = new DotNetMetricCreateCommand(dotnetmetric);
-                _mediator.Send(commanddotnet);
+               _mediator.Send(commanddotnet);
 
                 var harddrivemetric = new Faker<HardDriveMetric>()
                     .RuleFor(x => x.DateTime, x => x.Date.BetweenOffset(_from, _to))

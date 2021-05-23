@@ -24,14 +24,14 @@ namespace MetricsAgent.DAL
         void IMetricsCommandRepository<CPUMetric>.CreateMetric(CPUMetric metric)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
-            connection.Execute($@"INSERT INTO {_dataBaseSettings.Value.CPUTableName}(DateTime, Something)
-                                    VALUES(@DateTime, @Something)", metric);
+            connection.Execute($@"INSERT INTO CPUMetrics(DateTime, CpuUsage)
+                                    VALUES(@DateTime, @CpuUsage)", metric);
         }
 
         IReadOnlyCollection<CPUMetric> IMetricsQueryRepository<CPUMetric>.GetMetricsByTimePeriod(DateTimeOffset from, DateTimeOffset to)
         {
             using var connection = new SQLiteConnection(_dataBaseSettings.Value.SQLiteConnection);
-            return connection.Query<CPUMetric>(@$"SELECT * FROM {_dataBaseSettings.Value.CPUTableName}
+            return connection.Query<CPUMetric>(@$"SELECT * FROM CPUMetrics
                                                     WHERE DateTime 
                                                     BETWEEN @from AND @to",
                                                     new { from, to }).AsList();
