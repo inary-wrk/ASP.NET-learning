@@ -68,7 +68,7 @@ namespace MetricsAgent
             services.AddScoped<IMetricsQueryRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
             services.AddScoped<IMetricsQueryRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
             services.AddScoped<IMetricsQueryRepository<RAMMetric>, RAMMetricsSQLiteDB>();
-            services.AddScoped<IMetricsCommandRepository<CPUMetric>, CPUMetricsSQLiteDB>();
+            services.AddSingleton<IMetricsCommandRepository<CPUMetric>, CPUMetricsSQLiteDB>();
             services.AddScoped<IMetricsCommandRepository<DotNetMetric>, DotNetMetricsSQLiteDB>();
             services.AddScoped<IMetricsCommandRepository<HardDriveMetric>, HardDriveMetricsSQLiteDB>();
             services.AddScoped<IMetricsCommandRepository<NetworkMetric>, NetworkMetricsSQLiteDB>();
