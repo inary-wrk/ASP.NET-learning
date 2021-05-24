@@ -38,7 +38,7 @@ namespace MetricsAgent.Mediatr.Handlers.Queries.Tests
 
             IReadOnlyCollection<CPUMetric> metricsList = new AutoFaker<CPUMetric>()
                 .RuleFor(x => x.DateTime, x => x.Date.BetweenOffset(dateTimeRange.From, dateTimeRange.To))
-                .RuleFor(x => x.Something, x => x.Random.Int(35, 95))
+                .RuleFor(x => x.CpuUsage, x => x.Random.Int(35, 95))
                 .Generate(4).ToList();
             var expected = metricsList.Adapt<IReadOnlyCollection<CPUMetricResponseDto>>();
 
